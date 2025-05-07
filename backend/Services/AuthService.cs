@@ -4,6 +4,7 @@ using System.Text;
 using Models;
 using Repositories;
 using Microsoft.IdentityModel.Tokens;
+using BCrypt.Net;
 
 namespace Services;
 

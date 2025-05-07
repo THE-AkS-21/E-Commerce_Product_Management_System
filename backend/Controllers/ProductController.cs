@@ -12,19 +12,19 @@ public class ProductController : ControllerBase {
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("GetProducts")]
     public async Task<IActionResult> GetProducts() {
         var products = await _service.GetAllAsync();
         return Ok(products);
     }
 
-    [HttpPost]
+    [HttpPost("AddProduct")]
     public async Task<IActionResult> CreateProduct(Product product) {
         var id = await _service.CreateAsync(product);
         return CreatedAtAction(nameof(GetProducts), new { id }, product);
     }
     
-    [HttpPut("{id}")]
+    [HttpPut("UpdateProduct/{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product) {
         if (id != product.Id)
             return BadRequest("Product ID mismatch.");
@@ -33,7 +33,7 @@ public class ProductController : ControllerBase {
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("DeleteProduct/{id}")]
     public async Task<IActionResult> DeleteProduct(int id) {
         await _service.DeleteAsync(id);
         return NoContent();

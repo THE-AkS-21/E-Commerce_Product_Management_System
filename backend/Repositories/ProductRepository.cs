@@ -22,7 +22,8 @@ public class ProductRepository {
                 Id = reader.GetInt32(0),
                 Name = reader.GetString(1),
                 Description = reader.IsDBNull(2) ? null : reader.GetString(2),
-                Price = reader.GetDouble(3),
+                // Price = reader.GetDouble(3),
+                Price = reader.GetDecimal(reader.GetOrdinal("price")),
                 StockQuantity = reader.GetInt32(4),
                 CategoryId = reader.GetInt32(5),
                 ImageUrl = reader.IsDBNull(6) ? null : reader.GetString(6),
@@ -30,7 +31,6 @@ public class ProductRepository {
                 UpdatedAt = reader.IsDBNull(8) ? null : reader.GetDateTime(8)
             });
         }
-
         return products;
     }
 

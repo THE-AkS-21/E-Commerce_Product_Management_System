@@ -45,3 +45,4 @@
 /Users/ankitsingh/Desktop/E-Commerce_Product_Management_System/backend/obj/Debug/net8.0/backend.pdb
 /Users/ankitsingh/Desktop/E-Commerce_Product_Management_System/backend/obj/Debug/net8.0/backend.genruntimeconfig.cache
 /Users/ankitsingh/Desktop/E-Commerce_Product_Management_System/backend/obj/Debug/net8.0/ref/backend.dll
+/Users/ankitsingh/Desktop/E-Commerce_Product_Management_System/backend/bin/Debug/net8.0/BCrypt.Net-Next.dll
