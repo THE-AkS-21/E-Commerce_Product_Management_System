@@ -1,0 +1,14 @@
+.idea
+.git
+
+backend/bin/
+backend/obj/
+backend/.idea/
+
+
+frontend/.gitignore
+frontend/.idea/
+frontend/.react-router/
+frontend/node_modules/
+
+
