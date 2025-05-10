@@ -10,9 +10,13 @@ public class CategoryRepository {
     // }
     private readonly string _connectionString;
 
-    public CategoryRepository(string connectionString)
-    {
-        _connectionString = connectionString;
+    // public CategoryRepository(string connectionString)
+    // {
+    //     _connectionString = connectionString;
+    // }
+    //
+    public CategoryRepository(IConfiguration configuration) {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
     public async Task<IEnumerable<Category>> GetAllAsync() {

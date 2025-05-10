@@ -5,8 +5,12 @@ namespace Repositories;
 
 public class UserRepository {
     private readonly string _connectionString;
-    public UserRepository(IConfiguration config) {
-        _connectionString = config.GetConnectionString("DefaultConnection");
+    // public UserRepository(string connectionString) {
+    //     _connectionString = connectionString;
+    // }
+    
+    public UserRepository(IConfiguration configuration) {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
     public async Task<User?> GetByUsernameAsync(string username) {

@@ -15,12 +15,21 @@ builder.Services.AddSwaggerGen(options =>
         Description = "API documentation for managing products, categories, and users in the E-Commerce system."
     });
 });
-builder.Services.AddSingleton<CategoryRepository>(provider =>
-    new CategoryRepository(connectionString));
-builder.Services.AddSingleton<CategoryService>();
+
+// builder.Services.AddSingleton<CategoryRepository>(provider =>
+//     new CategoryRepository(connectionString));
+
+//Registering Repositories
+builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
 builder.Services.AddSingleton<ProductRepository>();
+
+//Registering Services
+builder.Services.AddSingleton<CategoryService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<ProductService>();
+
+//Registering Authentication Services
 builder.Services.AddScoped<Services.AuthService>();
 
 builder.Services.AddCors(options =>
