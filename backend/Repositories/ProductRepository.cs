@@ -33,6 +33,72 @@ public class ProductRepository {
         }
         return products;
     }
+    
+    public async Task<List<Product>> GetProductsByNameAsync(string name) {
+    var products = new List<Product>();
+
+    await using var connection = new NpgsqlConnection(_connectionString);
+    await connection.OpenAsync();
+
+    await using var command = new NpgsqlCommand("SELECT * FROM Products WHERE LOWER(Name) LIKE @name", connection);
+    command.Parameters.AddWithValue("@name", $"%{name.ToLower()}%");
+
+    await using var reader = await command.ExecuteReaderAsync();
+
+    while (await reader.ReadAsync())
+    {
+        products.Add(new Product
+        {
+            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+            Name = reader.GetString(reader.GetOrdinal("Name")),
+            Description = reader.GetString(reader.GetOrdinal("Description")),
+            Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+            StockQuantity = reader.GetInt32(reader.GetOrdinal("StockQuantity")),
+            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
+            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+            UpdatedAt = reader.IsDBNull(reader.GetOrdinal("UpdatedAt")) 
+                ? null 
+                : reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+        });
+    }
+
+    return products;
+}
+
+public async Task<List<Product>> GetProductsByCategoryAsync(int categoryId)
+{
+    var products = new List<Product>();
+
+    await using var connection = new NpgsqlConnection(_connectionString);
+    await connection.OpenAsync();
+
+    await using var command = new NpgsqlCommand("SELECT * FROM Products WHERE CategoryId = @categoryId", connection);
+    command.Parameters.AddWithValue("@categoryId", categoryId);
+
+    await using var reader = await command.ExecuteReaderAsync();
+
+    while (await reader.ReadAsync())
+    {
+        products.Add(new Product
+        {
+            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+            Name = reader.GetString(reader.GetOrdinal("Name")),
+            Description = reader.GetString(reader.GetOrdinal("Description")),
+            Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+            StockQuantity = reader.GetInt32(reader.GetOrdinal("StockQuantity")),
+            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
+            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+            UpdatedAt = reader.IsDBNull(reader.GetOrdinal("UpdatedAt")) 
+                ? null 
+                : reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+        });
+    }
+
+    return products;
+}
+
 
     public async Task<int> CreateAsync(Product product) {
         await using var connection = new NpgsqlConnection(_connectionString);

@@ -12,19 +12,34 @@ public class ProductController : ControllerBase {
         _service = service;
     }
 
-    [HttpGet("GetProducts")]
+    [HttpGet("Get")]
     public async Task<IActionResult> GetProducts() {
         var products = await _service.GetAllAsync();
         return Ok(products);
     }
+    
+    [HttpGet("name/{name}")]
+    public async Task<IActionResult> GetProductsByName([FromQuery] string name)
+    {
+        var products = await _service.GetProductsByNameAsync(name);
+        return Ok(products);
+    }
 
-    [HttpPost("AddProduct")]
+    [HttpGet("category/{categoryId}")]
+    public async Task<IActionResult> GetProductsByCategory(int categoryId)
+    {
+        var products = await _service.GetProductsByCategoryAsync(categoryId);
+        return Ok(products);
+    }
+
+
+    [HttpPost("Add")]
     public async Task<IActionResult> CreateProduct(Product product) {
         var id = await _service.CreateAsync(product);
         return CreatedAtAction(nameof(GetProducts), new { id }, product);
     }
     
-    [HttpPut("UpdateProduct/{id}")]
+    [HttpPut("Update/{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product) {
         if (id != product.Id)
             return BadRequest("Product ID mismatch.");
@@ -33,10 +48,9 @@ public class ProductController : ControllerBase {
         return NoContent();
     }
 
-    [HttpDelete("DeleteProduct/{id}")]
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> DeleteProduct(int id) {
         await _service.DeleteAsync(id);
         return NoContent();
     }
-
 }

@@ -30,6 +30,33 @@ public class UserRepository {
 
         return null;
     }
+    
+    public async Task<List<User>> GetAllAsync()
+    {
+        var users = new List<User>();
+
+        using var conn = new NpgsqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        var query = "SELECT * FROM Users";
+        using var cmd = new NpgsqlCommand(query, conn);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            users.Add(new User
+            {
+                Id = reader.GetInt32(0),
+                Username = reader.GetString(1),
+                Email = reader.GetString(2),
+                PasswordHash = reader.GetString(3),
+                Role = reader.GetString(4),
+                CreatedAt = reader.GetDateTime(5)
+            });
+        }
+
+        return users;
+    }
 
     public async Task<int> CreateAsync(User user) {
         await using var connection = new NpgsqlConnection(_connectionString);
