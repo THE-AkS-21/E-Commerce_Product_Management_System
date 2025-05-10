@@ -24,6 +24,7 @@ builder.Services.AddSingleton<UserRepository>();
 // builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<ProductRepository>();
 builder.Services.AddSingleton<ProductService>();
+builder.Services.AddScoped<Services.AuthService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
