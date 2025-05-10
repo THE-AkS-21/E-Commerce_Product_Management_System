@@ -12,19 +12,19 @@ public class CategoryController : ControllerBase {
         _service = service;
     }
 
-    [HttpGet("GetCategories")]
+    [HttpGet("Get")]
     public async Task<IActionResult> GetCategories() {
         var categories = await _service.GetAllAsync();
         return Ok(categories);
     }
 
-    [HttpPost("AddCategory")]
+    [HttpPost("Add")]
     public async Task<IActionResult> CreateCategory(Category category) {
         var id = await _service.CreateAsync(category);
         return CreatedAtAction(nameof(GetCategories), new { id }, category);
     }
     
-    [HttpPut("UpdateCategory/{id}")]
+    [HttpPut("Update/{id}")]
     public async Task<IActionResult> UpdateCategory(int id, Category category) {
         if (id != category.Id)
             return BadRequest("Category ID mismatch.");
@@ -33,7 +33,7 @@ public class CategoryController : ControllerBase {
         return NoContent();
     }
     
-    [HttpDelete("DeleteCategory/{id}")]
+    [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> DeleteCategory(int id) {
         await _service.DeleteAsync(id);
         return NoContent();
