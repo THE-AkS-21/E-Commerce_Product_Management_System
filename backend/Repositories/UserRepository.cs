@@ -5,12 +5,23 @@ namespace Repositories;
 
 public class UserRepository {
     private readonly string _connectionString;
-    // public UserRepository(string connectionString) {
-    //     _connectionString = connectionString;
-    // }
     
     public UserRepository(IConfiguration configuration) {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+    
+    public async Task<int> GetTotalUsersAsync()
+    {
+        var query = "SELECT COUNT(*) FROM users";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new NpgsqlCommand(query, connection))
+            {
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        }
     }
 
     public async Task<User?> GetByUsernameAsync(string username) {
@@ -31,7 +42,6 @@ public class UserRepository {
                 CreatedAt = reader.GetDateTime(5)
             };
         }
-
         return null;
     }
     

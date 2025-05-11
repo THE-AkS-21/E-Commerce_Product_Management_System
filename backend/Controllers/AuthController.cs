@@ -20,11 +20,13 @@ public class AuthController : ControllerBase {
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(string username, string password) {
-        var token = await _authService.AuthenticateAsync(username, password);
-        if (token == null)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request) {
+        var authResponse = await _authService.AuthenticateAsync(request.Username, request.Password);
+        if (authResponse == null)
             return Unauthorized("Invalid credentials.");
 
-        return Ok(new { Token = token });
+        return Ok(new{
+            Token = authResponse
+        });
     }
 }

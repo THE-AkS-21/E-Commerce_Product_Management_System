@@ -11,6 +11,11 @@ public class ProductService {
 
     public Task<IEnumerable<Product>> GetAllAsync() => _repo.GetAllAsync();
     
+    public async Task<int> GetTotalProductsAsync()
+    {
+        return await _repo.GetTotalProductsAsync();
+    }
+    
     public async Task<List<Product>> GetProductsByNameAsync(string name)
     {
         return await _repo.GetProductsByNameAsync(name);
