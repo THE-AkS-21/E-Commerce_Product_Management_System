@@ -41,8 +41,18 @@ public class AuthService {
         return  tokenHandler.WriteToken(token);
     }
 
-    public async Task<int> RegisterAsync(User user, string password) {
-        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
-        return await _repo.CreateAsync(user);
+    public async Task<int> RegisterAsync(string username, string email, string password, string role) { 
+        var encryptedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+        var newUser = new User
+        {
+            Username = username,
+            Email = email,
+            PasswordHash = encryptedPassword,
+            Role = role,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        return await _repo.CreateAsync(newUser);
     }
 }
