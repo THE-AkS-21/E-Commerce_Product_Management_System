@@ -4,15 +4,10 @@ using Models;
 namespace Repositories;
 
 public class CategoryRepository {
-    // private readonly string _connectionString;
-    // public CategoryRepository(IConfiguration configuration) {
-    //     _connectionString = configuration.GetConnectionString("DefaultConnection");
-    // }
     private readonly string _connectionString;
-
-    public CategoryRepository(string connectionString)
-    {
-        _connectionString = connectionString;
+    
+    public CategoryRepository(IConfiguration configuration) {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
     public async Task<IEnumerable<Category>> GetAllAsync() {
@@ -32,6 +27,35 @@ public class CategoryRepository {
         }
 
         return categories;
+    }
+    
+    public async Task<string?> GetCategoryNameByIdAsync(int categoryId)
+    {
+        var categories = new List<Category>();
+        await using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+        
+        var command = new NpgsqlCommand("SELECT name FROM categories WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", categoryId);
+
+        var result = await command.ExecuteScalarAsync();
+        await connection.CloseAsync();
+
+        return result?.ToString();
+    }
+    
+    public async Task<int> GetTotalCategoriesAsync()
+    {
+        var query = "SELECT COUNT(*) FROM categories";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new NpgsqlCommand(query, connection))
+            {
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        }
     }
 
     public async Task<int> CreateAsync(Category category) {

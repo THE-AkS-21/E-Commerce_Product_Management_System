@@ -6,7 +6,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -16,15 +15,23 @@ builder.Services.AddSwaggerGen(options =>
         Description = "API documentation for managing products, categories, and users in the E-Commerce system."
     });
 });
-// builder.Services.AddSingleton<CategoryRepository>();
-builder.Services.AddSingleton<CategoryRepository>(provider =>
-    new CategoryRepository(connectionString));
-builder.Services.AddSingleton<CategoryService>();
+
+// builder.Services.AddSingleton<CategoryRepository>(provider =>
+//     new CategoryRepository(connectionString));
+
+//Registering Repositories
+builder.Services.AddSingleton<CategoryRepository>();
 builder.Services.AddSingleton<UserRepository>();
-// builder.Services.AddSingleton<AuthService>();
 builder.Services.AddSingleton<ProductRepository>();
+
+//Registering Services
+builder.Services.AddSingleton<CategoryService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<ProductService>();
+
+//Registering Authentication Services
 builder.Services.AddScoped<Services.AuthService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -45,9 +52,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
-// app.UseSwagger();
-// app.UseSwaggerUI();
-
 app.UseRouting();
 app.MapControllers();
 
