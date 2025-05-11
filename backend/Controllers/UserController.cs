@@ -15,13 +15,19 @@ namespace Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("Get")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _service.GetAllUsersAsync();
             return Ok(users);
         }
-
         
+        [HttpGet("Get/count")]
+        public async Task<IActionResult> GetTotalUsersCount()
+        {
+            var count = await _service.GetTotalUsersAsync();
+            return Ok(new { totalUsers = count });
+        }
+
     }
 }

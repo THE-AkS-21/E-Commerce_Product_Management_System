@@ -34,6 +34,21 @@ public class ProductRepository {
         return products;
     }
     
+    public async Task<int> GetTotalProductsAsync()
+    {
+        var query = "SELECT COUNT(*) FROM products";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new NpgsqlCommand(query, connection))
+            {
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        }
+    }
+
+    
     public async Task<List<Product>> GetProductsByNameAsync(string name) {
     var products = new List<Product>();
 

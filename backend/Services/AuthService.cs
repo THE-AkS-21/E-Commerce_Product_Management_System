@@ -21,12 +21,13 @@ public class AuthService {
         var user = await _repo.GetByUsernameAsync(username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             return null;
-
+        
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]!);
 
         var tokenDescriptor = new SecurityTokenDescriptor {
             Subject = new ClaimsIdentity(new[] {
+                new Claim("id", user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role)
             }),
@@ -37,7 +38,7 @@ public class AuthService {
         };
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        return  tokenHandler.WriteToken(token);
     }
 
     public async Task<int> RegisterAsync(User user, string password) {

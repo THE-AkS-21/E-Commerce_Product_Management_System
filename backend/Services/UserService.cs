@@ -12,6 +12,11 @@ namespace Services
             _repository = repository;
         }
         
+        public async Task<int> GetTotalUsersAsync()
+        {
+            return await _repository.GetTotalUsersAsync();
+        }
+
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _repository.GetAllAsync();
