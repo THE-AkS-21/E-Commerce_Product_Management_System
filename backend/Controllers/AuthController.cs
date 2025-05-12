@@ -14,9 +14,13 @@ public class AuthController : ControllerBase {
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(User user, string password) {
-        var id = await _authService.RegisterAsync(user, password);
-        return CreatedAtAction(nameof(Register), new { id }, user);
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        var userId = await _authService.RegisterAsync(request.Username, request.Email, request.Password, request.Role);
+        return Ok(new {
+            id = userId,
+            message = "Registration successful"
+        });
     }
 
     [HttpPost("login")]

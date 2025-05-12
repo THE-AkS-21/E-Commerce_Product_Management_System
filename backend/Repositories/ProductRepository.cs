@@ -6,7 +6,8 @@ namespace Repositories;
 public class ProductRepository {
     private readonly string _connectionString;
     public ProductRepository(IConfiguration configuration) {
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _connectionString = configuration.GetConnectionString("DefaultConnection")
+         ?? throw new InvalidOperationException("Connection string not found.");
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync() {
@@ -14,7 +15,7 @@ public class ProductRepository {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var command = new NpgsqlCommand("SELECT * FROM products", connection);
+        var command = new NpgsqlCommand("SELECT * FROM products ORDER BY id ASC", connection);
         var reader = await command.ExecuteReaderAsync();
 
         while (await reader.ReadAsync()) {
@@ -32,6 +33,35 @@ public class ProductRepository {
             });
         }
         return products;
+    }
+    
+    public async Task<Product?> GetProductByIdAsync(int id)
+    {
+        using var connection = new NpgsqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        using var command = new NpgsqlCommand("SELECT * FROM Products WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", id);
+
+        using var reader = await command.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return new Product
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Name = reader.GetString(reader.GetOrdinal("Name")),
+                Description = reader.GetString(reader.GetOrdinal("Description")),
+                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                StockQuantity = reader.GetInt32(reader.GetOrdinal("StockQuantity")),
+                CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
+                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+                UpdatedAt = reader.IsDBNull(reader.GetOrdinal("UpdatedAt")) 
+                    ? null 
+                    : reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+            };
+        }
+        return null;
     }
     
     public async Task<int> GetTotalProductsAsync()

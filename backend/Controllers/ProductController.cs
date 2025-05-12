@@ -18,6 +18,16 @@ public class ProductController : ControllerBase {
         return Ok(products);
     }
     
+    [HttpGet("by-Id/{id}")]
+    public async Task<IActionResult> GetProductById(int id)
+    {
+        var product = await _service.GetProductByIdAsync(id);
+        if (product == null)
+            return NotFound("Product not found");
+
+        return Ok(product);
+    }
+    
     [HttpGet("Get/count")]
     public async Task<IActionResult> GetTotalProductsCount()
     {
