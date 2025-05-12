@@ -15,7 +15,7 @@ public class CategoryRepository {
         await using var connection = new NpgsqlConnection(_connectionString);
         await connection.OpenAsync();
 
-        var command = new NpgsqlCommand("SELECT * FROM categories", connection);
+        var command = new NpgsqlCommand("SELECT * FROM categories ORDER BY id ASC", connection);
         var reader = await command.ExecuteReaderAsync();
 
         while (await reader.ReadAsync()) {

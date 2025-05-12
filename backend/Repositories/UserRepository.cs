@@ -52,7 +52,7 @@ public class UserRepository {
         using var conn = new NpgsqlConnection(_connectionString);
         await conn.OpenAsync();
 
-        var query = "SELECT * FROM Users";
+        var query = "SELECT * FROM Users ORDER BY id ASC";
         using var cmd = new NpgsqlCommand(query, conn);
 
         using var reader = await cmd.ExecuteReaderAsync();
