@@ -1,0 +1,9 @@
+# backend/.dockerignore
+bin/
+obj/
+out/
+Dockerfile
+.dockerignore
+.git
+.gitignore
+README.md
