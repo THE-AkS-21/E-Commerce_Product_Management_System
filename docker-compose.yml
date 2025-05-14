@@ -5,6 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: backend
     depends_on:
       - db
     networks:
@@ -18,13 +19,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: "ECommerceDB"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "QWERTY"
     networks:
       - ecommerce-network
     ports:
-      - "5432:5432"  # Optional: expose port for external connections
+      - "5433:5432"  # Optional: expose port for external connections
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
@@ -36,15 +36,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "5173:5173"
     depends_on:
       - backend
     networks:
       - ecommerce-network
     environment:
-      - VITE_API_URL=http://backend:8080
-
-
+      - VITE_API_URL=http://backend:5000
 
 networks:
   ecommerce-network:
