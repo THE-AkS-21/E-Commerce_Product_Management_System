@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
-
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 namespace Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ProductController : ControllerBase {
     private readonly ProductService _service;
     public ProductController(ProductService service) {
@@ -49,15 +51,29 @@ public class ProductController : ControllerBase {
         return Ok(products);
     }
 
-
+    
     [HttpPost("Add")]
     public async Task<IActionResult> CreateProduct(Product product) {
+        
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // verify user role
+        if (!User.IsInRole("ADMIN"))
+        {
+            return Forbid();
+        }
+        
         var id = await _service.CreateAsync(product);
         return CreatedAtAction(nameof(GetProducts), new { id }, product);
     }
     
     [HttpPut("Update-by-ID/{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product) {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // verify user role
+        if (!User.IsInRole("ADMIN"))
+        {
+            return Forbid();
+        }
         if (id != product.Id)
             return BadRequest("Product ID mismatch.");
 
@@ -67,6 +83,12 @@ public class ProductController : ControllerBase {
 
     [HttpDelete("Delete-by-ID/{id}")]
     public async Task<IActionResult> DeleteProduct(int id) {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // verify user role
+        if (!User.IsInRole("ADMIN"))
+        {
+            return Forbid();
+        }
         await _service.DeleteAsync(id);
         return NoContent();
     }
