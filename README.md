@@ -14,7 +14,7 @@ This system allows admins and business users to manage product listings, categor
 - [Project Structure](#project-structure)
 - [Setup Instructions](#setup-instructions)
 - [Screenshots](#screenshots)
-- [License](#license)
+- [Author](#Author)
 
 ---
 
@@ -66,24 +66,71 @@ This project aims to provide a clean, scalable, and modular architecture for pro
 
 ### 📌 Frontend
 
-|           Package           |                               Description                                    |
-|-----------------------------|------------------------------------------------------------------------------|
-| `react`                     | Core React library                                                           |
-| `react-dom`                 | DOM-specific methods for React                                               |
-| `vite`                      | Fast, modern frontend build tool                                             |
-| `tailwindcss`               | Utility-first CSS framework                                                  |
-| `@tailwindcss/vite`         | Integrates Tailwind with Vite                                                |
-| `vite-tsconfig-paths`       | Supports TypeScript path aliases in Vite                                     |
-| `@react-router/dev`         | React Router for SPA navigation                                              |
-| `axios`                     | Used for API calls                                                           |
-| `@syncfusion/` (optional)   | UI components (if used for grids or charts)                                  |
+|                         Package                                  |                                 Description                                                           |
+|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| `react`                                                          | Core React library                                                                                    |
+| `react-dom`                                                      | DOM-specific methods for React                                                                        |
+| `vite`                                                           | Fast, modern frontend build tool                                                                      |
+| `tailwindcss`                                                    | Utility-first CSS framework                                                                           |
+| `@tailwindcss/vite`                                              | Integrates Tailwind with Vite                                                                         |
+| `vite-tsconfig-paths`                                            | Supports TypeScript path aliases in Vite                                                              |
+| `@react-router/dev`                                              | React Router for SPA navigation                                                                       |
+| `axios`                                                          | Used for API calls                                                                                    |
+| `@syncfusion/` (optional)                                        | UI components (if used for grids or charts)                                                           |
 
+
+---
+
+
+### 🗂️ Create Directory Structure
+```
+mkdir E-Commerce_Product_Management_System
+cd E-Commerce_Product_Management_System
+mkdir backend frontend
+
+//Backend structure:
+
+cd backend
+dotnet new webapi -o src
+
+//Frontend structure
+
+cd frontend
+npm create vite@latest app -- --template react-ts
+cd app
+npm install
+
+```
+### 📦 Dependencies Install Commands
+```
+//BACKEND
+
+//Nqsql
+dotnet add package Npgsql
+
+//JWT AUTHENTICATION
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.4
+
+//FOR PASSWORD ENCRYPTION
+dotnet add package BCrypt.Net-Next
+
+//FOR SWAGGER DOCUMENTATION/open APIs
+dotnet add package Swashbuckle.AspNetCore
+
+//FRONTEND
+
+npm install react react-dom vite tailwindcss @tailwindcss/vite vite-tsconfig-paths @react-router/dev axios
+
+//Optional for UI Components
+npm install @syncfusion/ej2-react-grids
+
+```
 
 ---
 
 ## 📁 Project Structure
 
-```shell
+```Bash
 E-Commerce_Product_Management_System/
 ├── backend/
 |   ├── src/
@@ -105,10 +152,11 @@ E-Commerce_Product_Management_System/
 │   └── Dockerfile
 └── docker-compose.yml
 
+```
 
-**🖥️ Screenshots**
+---
 
-*****************************
+## 🖥️ Screenshot
 
 **LOG IN PAGE**
 
@@ -152,18 +200,20 @@ E-Commerce_Product_Management_System/
 
 <img width="1680" alt="Add_Category" src="https://github.com/user-attachments/assets/26b6243d-d529-4243-91ae-6fd05742b353" />
 
-🐳 Docker Setup
+---
+## 🐳 Docker Setup
 📌 Build & Run Containers
 
-
+```shell
 docker-compose build
 docker-compose up
-
+```
 
 Backend will be running at: http://localhost:8080
 
-Frontend will be available at: http://localhost
+Frontend will be available at: http://localhost:5173
 
+---
 
 📌 Author
-Ankit Singh
+Ankit Kumar Singh
