@@ -1,9 +1,8 @@
 ﻿# Use official PostgreSQL Alpine image
-FROM postgres:16-alpine
+FROM postgres:latest
 
-# Add any custom configuration files
-COPY ./postgresql.conf /etc/postgresql/postgresql.conf
-COPY ./pg_hba.conf /etc/postgresql/pg_hba.conf
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=QWERTY
 
 # Create directory for initialization scripts
 RUN mkdir -p /docker-entrypoint-initdb.d
@@ -12,4 +11,4 @@ RUN mkdir -p /docker-entrypoint-initdb.d
 COPY ./init-scripts/ /docker-entrypoint-initdb.d/
 
 # Set default configuration file
-CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+CMD ["postgres"]

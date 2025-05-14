@@ -2,12 +2,18 @@ CREATE DATABASE "ECommerceDB"
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
+    LC_COLLATE = 'en_US.utf8'
+    LC_CTYPE = 'en_US.utf8'
     LOCALE_PROVIDER = 'libc'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
+
+\c ECommerceDB;
+
+CREATE SEQUENCE categories_id_seq;
+CREATE SEQUENCE products_id_seq;
+CREATE SEQUENCE users_id_seq;
 
 CREATE TABLE IF NOT EXISTS public.categories
 (
@@ -63,4 +69,4 @@ ALTER TABLE IF EXISTS public.users
 
 INSERT INTO public.users(
     id, username, email, password, role, createdat)
-VALUES (1, AKS, aks@gmail.com, "$2a$11$eblypG/ksXWjALAJ7YpB1e7Epn/6iKsx8W5XvPDEQVM3iv0y.JaFa", ADMIN, 2025-05-14);
+VALUES (1, 'AKS', 'aks@gmail.com', '$2a$11$eblypG/ksXWjALAJ7YpB1e7Epn/6iKsx8W5XvPDEQVM3iv0y.JaFa', 'ADMIN', '2025-05-14');
