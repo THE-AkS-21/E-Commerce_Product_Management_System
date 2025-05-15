@@ -149,7 +149,8 @@ E-Commerce_Product_Management_System/
 │   │   └── vite.config.ts
 |   ├── components/
 │   └── Dockerfile
-└── docker-compose.yml
+├── docker-compose.yml
+└── docker-compose.deploy.yml
 
 ```
 
@@ -201,16 +202,18 @@ E-Commerce_Product_Management_System/
 
 ---
 ## 🐳 Docker Setup
-📌 Build & Run Containers
+
+### 📋 Prerequisites
+
+- Install Docker Desktop or any Container Orchestration Tool
+- Make Sure Port: 3000, 8080, & 5433 are free
+
+### 📌 Build & Run Containers
 
 ```shell
-docker-compose build
-docker-compose up
+//Cammand to pull and deploy in your docker environment
+docker-compose -f docker-compose.deploy.yml up -d
 ```
-
-Backend will be running at: http://localhost:8080
-
-Frontend will be available at: http://localhost:5173
 
 ---
 
