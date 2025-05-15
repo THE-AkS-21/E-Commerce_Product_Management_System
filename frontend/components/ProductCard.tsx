@@ -16,7 +16,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     // Custom hook to fetch the category name based on product's categoryId
     const { categoryName } = useCategoryName(product.categoryId);
-    console.log("CATEGORY NAME :",categoryName);
     return (
         // Product card container wrapped with a Link to the product's details page
         <Link to={`/product/${product.id}`} className="product-card ">

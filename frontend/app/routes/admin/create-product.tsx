@@ -66,16 +66,15 @@ const CreateProduct = () => {
 
             alert("✅ Product Created!");
             console.log("✅ Product Created:", response);
-            
             // Reset form state
-            setProduct({
-                name: '',
-                description: '',
-                price: 0,
-                stockQuantity: 0,
-                categoryId: 0,
-                image: ''
-            });
+            // setProduct({
+            //     name: '',
+            //     description: '',
+            //     price: 0,
+            //     stockQuantity: 0,
+            //     categoryId: 0,
+            //     image: ''
+            // });
             navigate("/all-product");
 
         } catch (error) {
@@ -156,18 +155,6 @@ const CreateProduct = () => {
                                 </option>
                             ))}
                         </select>
-
-                        {/*/!* Category Id *!/*/}
-                        {/*<label htmlFor="categoryId">Category Id</label>*/}
-                        {/*<input*/}
-                        {/*    type="text"*/}
-                        {/*    name="categoryId"*/}
-                        {/*    id="categoryId"*/}
-                        {/*    value={product.categoryId}*/}
-                        {/*    onChange={handleChange}*/}
-                        {/*    placeholder="Category"*/}
-                        {/*    className="form-input placeholder:text-gray-100"*/}
-                        {/*/>*/}
 
                         {/* Image */}
                         <label htmlFor="image">Image URL</label>
