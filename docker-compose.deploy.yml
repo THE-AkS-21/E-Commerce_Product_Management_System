@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    image: theaks/backend:latest
+    container_name: backend
+    ports:
+      - "8080:8080"
+
+  db:
+    image: theaks/db:latest
+    container_name: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  frontend:
+    image: theaks/frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
