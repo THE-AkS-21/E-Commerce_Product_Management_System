@@ -66,16 +66,15 @@ const CreateProduct = () => {
 
             alert("✅ Product Created!");
             console.log("✅ Product Created:", response);
-            window.location.reload();
             // Reset form state
-            setProduct({
-                name: '',
-                description: '',
-                price: 0,
-                stockQuantity: 0,
-                categoryId: 0,
-                image: ''
-            });
+            // setProduct({
+            //     name: '',
+            //     description: '',
+            //     price: 0,
+            //     stockQuantity: 0,
+            //     categoryId: 0,
+            //     image: ''
+            // });
             navigate("/all-product");
 
         } catch (error) {
