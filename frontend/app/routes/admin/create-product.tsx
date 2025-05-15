@@ -66,7 +66,7 @@ const CreateProduct = () => {
 
             alert("✅ Product Created!");
             console.log("✅ Product Created:", response);
-            
+            window.location.reload();
             // Reset form state
             setProduct({
                 name: '',
@@ -156,18 +156,6 @@ const CreateProduct = () => {
                                 </option>
                             ))}
                         </select>
-
-                        {/*/!* Category Id *!/*/}
-                        {/*<label htmlFor="categoryId">Category Id</label>*/}
-                        {/*<input*/}
-                        {/*    type="text"*/}
-                        {/*    name="categoryId"*/}
-                        {/*    id="categoryId"*/}
-                        {/*    value={product.categoryId}*/}
-                        {/*    onChange={handleChange}*/}
-                        {/*    placeholder="Category"*/}
-                        {/*    className="form-input placeholder:text-gray-100"*/}
-                        {/*/>*/}
 
                         {/* Image */}
                         <label htmlFor="image">Image URL</label>

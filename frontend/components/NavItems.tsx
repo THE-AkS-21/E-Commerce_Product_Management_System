@@ -26,7 +26,7 @@ const NavItems = () => {
         console.log("Logging out in 500ms...");
         setTimeout(() => {
             logout();
-            navigate("/log-in");
+            navigate("/");
         }, 500);
     };
 
