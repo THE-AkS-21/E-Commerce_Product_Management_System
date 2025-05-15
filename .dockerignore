@@ -1,10 +1,27 @@
+# Node modules — don't copy these, we'll npm install in the image
 node_modules
+
+# Logs
 npm-debug.log
+
+# Docker build files
 Dockerfile
 .dockerignore
+
+# Git-related files
 .git
 .gitignore
+
+# Environment files (security-sensitive)
+.env
+.env.*  
+
+# Project docs / markdown
 README.md
-.env*
-docker
 *.md
+
+# Other possible local dev files
+docker
+
+# Other directories
+/screenShots
