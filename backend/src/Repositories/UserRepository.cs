@@ -5,8 +5,23 @@ namespace Repositories;
 
 public class UserRepository {
     private readonly string _connectionString;
-    public UserRepository(IConfiguration config) {
-        _connectionString = config.GetConnectionString("DefaultConnection");
+    
+    public UserRepository(IConfiguration configuration) {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+    
+    public async Task<int> GetTotalUsersAsync()
+    {
+        var query = "SELECT COUNT(*) FROM users";
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+            using (var command = new NpgsqlCommand(query, connection))
+            {
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        }
     }
 
     public async Task<User?> GetByUsernameAsync(string username) {
@@ -27,8 +42,34 @@ public class UserRepository {
                 CreatedAt = reader.GetDateTime(5)
             };
         }
-
         return null;
+    }
+    
+    public async Task<List<User>> GetAllAsync()
+    {
+        var users = new List<User>();
+
+        using var conn = new NpgsqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        var query = "SELECT * FROM Users ORDER BY id ASC";
+        using var cmd = new NpgsqlCommand(query, conn);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            users.Add(new User
+            {
+                Id = reader.GetInt32(0),
+                Username = reader.GetString(1),
+                Email = reader.GetString(2),
+                PasswordHash = reader.GetString(3),
+                Role = reader.GetString(4),
+                CreatedAt = reader.GetDateTime(5)
+            });
+        }
+
+        return users;
     }
 
     public async Task<int> CreateAsync(User user) {

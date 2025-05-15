@@ -9,3 +9,14 @@
 /frontend/.idea/
 /frontend/.react-router/
 /frontend/node_modules/
+
+
+# Docker
+.env.local
+.env.prod
+*.env
+docker/*/*.env
+
+/screenShots
+
+/db
