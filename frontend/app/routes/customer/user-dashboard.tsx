@@ -24,7 +24,7 @@ const UserDashboard = () => {
 
     // If the user is not authenticated, redirect to the login page
     if (!authData) {
-        return <Navigate to="/log-in" />;
+        return <Navigate to="/" />;
     }
 
     useEffect(() => {

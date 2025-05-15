@@ -10,7 +10,7 @@ import {
 } from "~/api/categories-api";
 import { delay } from "~/lib/utils";
 
-const API_URL = import.meta.env.VITE_API_URL + "Category";
+const API_URL = import.meta.env.VITE_API_URL + "/api/Category";
 
 /**
  * Custom hook to fetch total category count from the server.
