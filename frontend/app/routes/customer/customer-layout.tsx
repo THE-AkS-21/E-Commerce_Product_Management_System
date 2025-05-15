@@ -14,7 +14,7 @@ const CustomerLayout = () => {
 
     // Redirect to login if no authData found
     if (!authData) {
-        return <Navigate to="/log-in" replace />;
+        return <Navigate to="/" replace />;
     }
 
     // Redirect to dashboard if the user is an ADMIN
