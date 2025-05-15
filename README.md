@@ -43,7 +43,7 @@ This project aims to provide a clean, scalable, and modular architecture for pro
 - **Backend:** ASP.NET Core 8 Web API, Npgsql, C#
 - **Frontend:** React 18, Vite, Tailwind CSS
 - **Database:** PostgreSQL
-- **Containerization:** Docker, Nginx
+- **Containerization:** Docker
 - **API Testing:** Postman
 
 ---
@@ -148,7 +148,6 @@ E-Commerce_Product_Management_System/
 │   │   ├── main.tsx
 │   │   └── vite.config.ts
 |   ├── components/
-│   ├── nginx.conf
 │   └── Dockerfile
 └── docker-compose.yml
 

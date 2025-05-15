@@ -62,10 +62,10 @@ builder.Services.AddScoped<Services.AuthService>();
 // Configuring CORS policy to allow frontend access
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("http://localhost:5173") // Replace with your actual frontend URL
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 // Building the application
@@ -79,7 +79,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Enabling CORS using the defined policy
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
 // Enforcing HTTPS redirection
 app.UseHttpsRedirection();
