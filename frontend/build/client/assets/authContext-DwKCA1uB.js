@@ -1,1 +1,0 @@
-import{a as o}from"./chunk-D4RADZKF-CEFUjEjZ.js";import{l as t}from"./utils-mUqetfhN.js";const a=o.createContext({authData:null,token:null,login:async()=>{t("AuthContext","login() called without provider")},logout:()=>{t("AuthContext","logout() called without provider")}});export{a as A};
