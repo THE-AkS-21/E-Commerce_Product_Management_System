@@ -42,26 +42,16 @@ public class CategoryController : ControllerBase {
         return Ok(categoryName);
     }
 
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("Add")]
     public async Task<IActionResult> CreateCategory(Category category) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
         var id = await _service.CreateAsync(category);
         return CreatedAtAction(nameof(GetCategories), new { id }, category);
     }
     
+    [Authorize(Roles = "ADMIN")]
     [HttpPut("Update-by-ID/{id}")]
     public async Task<IActionResult> UpdateCategory(int id, Category category) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
         if (id != category.Id)
             return BadRequest("Category ID mismatch.");
 
@@ -69,14 +59,9 @@ public class CategoryController : ControllerBase {
         return NoContent();
     }
     
+    [Authorize(Roles = "ADMIN")]
     [HttpDelete("Delete-by-ID/{id}")]
     public async Task<IActionResult> DeleteCategory(int id) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
         await _service.DeleteAsync(id);
         return NoContent();
     }

@@ -51,29 +51,16 @@ public class ProductController : ControllerBase {
         return Ok(products);
     }
 
-    
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("Add")]
     public async Task<IActionResult> CreateProduct(Product product) {
-        
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
-        
         var id = await _service.CreateAsync(product);
         return CreatedAtAction(nameof(GetProducts), new { id }, product);
     }
     
+    [Authorize(Roles = "ADMIN")]
     [HttpPut("Update-by-ID/{id}")]
     public async Task<IActionResult> UpdateProduct(int id, Product product) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
         if (id != product.Id)
             return BadRequest("Product ID mismatch.");
 
@@ -81,14 +68,9 @@ public class ProductController : ControllerBase {
         return NoContent();
     }
 
+    [Authorize(Roles = "ADMIN")]
     [HttpDelete("Delete-by-ID/{id}")]
     public async Task<IActionResult> DeleteProduct(int id) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
         await _service.DeleteAsync(id);
         return NoContent();
     }
