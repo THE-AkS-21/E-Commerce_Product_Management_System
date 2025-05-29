@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
+using DTOs;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 namespace Controllers;
@@ -10,12 +12,14 @@ namespace Controllers;
 [Authorize]
 public class ProductController : ControllerBase {
     private readonly ProductService _service;
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service) 
+    {
         _service = service;
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetProducts() {
+    public async Task<IActionResult> GetProducts() 
+    {
         var products = await _service.GetAllAsync();
         return Ok(products);
     }
@@ -24,9 +28,10 @@ public class ProductController : ControllerBase {
     public async Task<IActionResult> GetProductById(int id)
     {
         var product = await _service.GetProductByIdAsync(id);
-        if (product == null)
-            return NotFound("Product not found");
-
+        if (NullCheckHelper.IsNull(product))
+        {
+            return NotFound("Product not found.");
+        }
         return Ok(product);
     }
     
@@ -45,51 +50,43 @@ public class ProductController : ControllerBase {
     }
 
     [HttpGet("by-category/{categoryId}")]
-    public async Task<IActionResult> GetProductsByCategory(int categoryId)
+    public async Task<IActionResult> GetProductsByCategory(int categoryId) 
     {
         var products = await _service.GetProductsByCategoryAsync(categoryId);
         return Ok(products);
     }
 
-    
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("Add")]
-    public async Task<IActionResult> CreateProduct(Product product) {
-        
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
-        
-        var id = await _service.CreateAsync(product);
-        return CreatedAtAction(nameof(GetProducts), new { id }, product);
+    public async Task<IActionResult> CreateProduct(ProductCreateDto createDto) 
+    {
+        var newProduct = await _service.CreateAsync(createDto);
+        return CreatedAtAction(nameof(GetProductById), new { id = newProduct.Id }, newProduct);
     }
     
+    [Authorize(Roles = "ADMIN")]
     [HttpPut("Update-by-ID/{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, Product product) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
-        {
-            return Forbid();
-        }
-        if (id != product.Id)
+    public async Task<IActionResult> UpdateProduct(int id, ProductUpdateDto updateDto)
+    {
+        if (id != updateDto.Id)
             return BadRequest("Product ID mismatch.");
 
-        await _service.UpdateAsync(product);
+        var result = await _service.UpdateAsync(id, updateDto);
+        if (!result)
+            return NotFound("Product not found.");
+
         return NoContent();
     }
 
+    [Authorize(Roles = "ADMIN")]
     [HttpDelete("Delete-by-ID/{id}")]
-    public async Task<IActionResult> DeleteProduct(int id) {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        // verify user role
-        if (!User.IsInRole("ADMIN"))
+    public async Task<IActionResult> DeleteProduct(int id) 
+    {
+        var result = await _service.DeleteAsync(id);
+        if (!result)
         {
-            return Forbid();
+            return NotFound("Product not found.");
         }
-        await _service.DeleteAsync(id);
         return NoContent();
     }
 }

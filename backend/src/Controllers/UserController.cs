@@ -18,31 +18,20 @@ namespace Controllers
             _service = service;
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("Get")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // verify user role
-            if (!User.IsInRole("ADMIN"))
-            {
-                return Forbid();
-            }
-            var users = await _service.GetAllUsersAsync();
-            return Ok(users);
+            var userDtos = await _service.GetAllUsersAsync();
+            return Ok(userDtos);
         }
         
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("Get/count")]
         public async Task<IActionResult> GetTotalUsersCount()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // verify user role
-            if (!User.IsInRole("ADMIN"))
-            {
-                return Forbid();
-            }
             var count = await _service.GetTotalUsersAsync();
             return Ok(new { totalUsers = count });
         }
-
     }
 }
