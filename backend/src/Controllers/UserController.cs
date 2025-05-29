@@ -22,8 +22,8 @@ namespace Controllers
         [HttpGet("Get")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _service.GetAllUsersAsync();
-            return Ok(users);
+            var userDtos = await _service.GetAllUsersAsync();
+            return Ok(userDtos);
         }
         
         [Authorize(Roles = "ADMIN")]
@@ -33,6 +33,5 @@ namespace Controllers
             var count = await _service.GetTotalUsersAsync();
             return Ok(new { totalUsers = count });
         }
-
     }
 }
