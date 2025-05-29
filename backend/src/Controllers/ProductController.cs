@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 using DTOs;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 namespace Controllers;
@@ -27,9 +28,10 @@ public class ProductController : ControllerBase {
     public async Task<IActionResult> GetProductById(int id)
     {
         var product = await _service.GetProductByIdAsync(id);
-        if (product == null)
+        if (NullCheckHelper.IsNull(product))
+        {
             return NotFound("Product not found.");
-
+        }
         return Ok(product);
     }
     
@@ -82,8 +84,9 @@ public class ProductController : ControllerBase {
     {
         var result = await _service.DeleteAsync(id);
         if (!result)
+        {
             return NotFound("Product not found.");
-
+        }
         return NoContent();
     }
 }

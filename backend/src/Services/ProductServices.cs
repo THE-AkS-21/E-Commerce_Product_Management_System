@@ -2,6 +2,7 @@ using Models;
 using Repositories;
 using DTOs;
 using AutoMapper;
+using Helpers;
 
 namespace Services;
 
@@ -58,7 +59,10 @@ public class ProductService
     public async Task<bool> UpdateAsync(int id, ProductUpdateDto updateDto)
     {
         var existingProduct = await _repo.GetProductByIdAsync(id);
-        if (existingProduct == null) return false;
+        if (NullCheckHelper.IsNull(existingProduct))
+        {
+            return false;
+        }
 
         _mapper.Map(updateDto, existingProduct);
         existingProduct.UpdatedAt = DateTime.UtcNow;
@@ -70,8 +74,10 @@ public class ProductService
     public async Task<bool> DeleteAsync(int id)
     {
         var existingProduct = await _repo.GetProductByIdAsync(id);
-        if (existingProduct == null) return false;
-
+        if (NullCheckHelper.IsNull(existingProduct))
+        {
+            return false;
+        }
         await _repo.DeleteAsync(id);
         return true;  
     } 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 using DTOs;
+using Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -36,7 +37,7 @@ public class CategoryController : ControllerBase {
     {
         var categoryName = await _service.GetCategoryNameByIdAsync(id);
 
-        if (string.IsNullOrEmpty(categoryName))
+        if (NullCheckHelper.IsNull(categoryName))
         {
             return NotFound("Category not found.");
         }

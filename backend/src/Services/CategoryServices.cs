@@ -27,6 +27,7 @@ public class CategoryService {
     public async Task<string?> GetCategoryNameByIdAsync(int categoryId)
     {
         return await _repo.GetCategoryNameByIdAsync(categoryId);
+        
     }
     public async Task<int> CreateAsync(CategoryCreateDto createDto)
     {
