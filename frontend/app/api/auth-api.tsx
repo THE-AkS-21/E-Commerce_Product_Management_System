@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { delay, log } from '~/lib/utils';
+import axiosInstance from "~/lib/axiosAuthInterceptor";
 
 const API_URL = import.meta.env.VITE_API_URL + '/api/Auth';
 

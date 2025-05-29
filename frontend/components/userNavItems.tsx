@@ -13,7 +13,7 @@ const UserNavItems = () => {
     const handleLogout = () => {
         logout();  // Call logout function from context
         console.log("Logging out...");  // Log message for debugging
-        navigate("/log-in");  // Redirect to login page after logout
+        navigate("/");  // Redirect to login page after logout
     };
 
     // Update profile image based on user role (ADMIN or default customer)
