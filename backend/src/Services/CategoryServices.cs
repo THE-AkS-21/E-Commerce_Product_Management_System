@@ -1,15 +1,23 @@
 using Models;
 using Repositories;
+using DTOs;
+using AutoMapper;
 
 namespace Services;
 
 public class CategoryService {
     private readonly CategoryRepository _repo;
-    public CategoryService(CategoryRepository repo) {
+    private readonly IMapper _mapper;
+    public CategoryService(CategoryRepository repo, IMapper mapper) {
         _repo = repo;
+        _mapper = mapper;
     }
 
-    public Task<IEnumerable<Category>> GetAllAsync() => _repo.GetAllAsync();
+    public async Task<List<CategoryReadDto>> GetAllAsync()
+    {
+        var categories = await _repo.GetAllAsync();
+        return _mapper.Map<List<CategoryReadDto>>(categories);
+    }
     
     public async Task<int> GetTotalCategoriesAsync()
     {
@@ -20,8 +28,16 @@ public class CategoryService {
     {
         return await _repo.GetCategoryNameByIdAsync(categoryId);
     }
-    public Task<int> CreateAsync(Category category) => _repo.CreateAsync(category);
+    public async Task<int> CreateAsync(CategoryCreateDto createDto)
+    {
+        var category = _mapper.Map<Category>(createDto);
+        return await _repo.CreateAsync(category);
+    }
+    
     public Task DeleteAsync(int id) => _repo.DeleteAsync(id);
-    public Task UpdateAsync(Category category) => _repo.UpdateAsync(category);
-
+    public async Task UpdateAsync(CategoryUpdateDto updateDto)
+    {
+        var category = _mapper.Map<Category>(updateDto);
+        await _repo.UpdateAsync(category);
+    }
 }

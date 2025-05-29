@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
+using DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
@@ -11,12 +12,14 @@ namespace Controllers;
 [Authorize]
 public class CategoryController : ControllerBase {
     private readonly CategoryService _service;
+    
     public CategoryController(CategoryService service) {
         _service = service;
     }
 
     [HttpGet("Get")]
-    public async Task<IActionResult> GetCategories() {
+    public async Task<IActionResult> GetCategories() 
+    {
         var categories = await _service.GetAllAsync();
         return Ok(categories);
     }
@@ -27,7 +30,6 @@ public class CategoryController : ControllerBase {
         var count = await _service.GetTotalCategoriesAsync();
         return Ok(new { totalCategories = count });
     }
-
     
     [HttpGet("{id}/name")]
     public async Task<IActionResult> GetCategoryName(int id)
@@ -44,24 +46,27 @@ public class CategoryController : ControllerBase {
 
     [Authorize(Roles = "ADMIN")]
     [HttpPost("Add")]
-    public async Task<IActionResult> CreateCategory(Category category) {
-        var id = await _service.CreateAsync(category);
-        return CreatedAtAction(nameof(GetCategories), new { id }, category);
+    public async Task<IActionResult> CreateCategory(CategoryCreateDto createDto) 
+    {
+        var id = await _service.CreateAsync(createDto);
+        return CreatedAtAction(nameof(GetCategories), new { id }, new { id });
     }
     
     [Authorize(Roles = "ADMIN")]
     [HttpPut("Update-by-ID/{id}")]
-    public async Task<IActionResult> UpdateCategory(int id, Category category) {
-        if (id != category.Id)
+    public async Task<IActionResult> UpdateCategory(int id, CategoryUpdateDto updateDto) 
+    {
+        if (id != updateDto.Id)
             return BadRequest("Category ID mismatch.");
 
-        await _service.UpdateAsync(category);
+        await _service.UpdateAsync(updateDto);
         return NoContent();
     }
     
     [Authorize(Roles = "ADMIN")]
     [HttpDelete("Delete-by-ID/{id}")]
-    public async Task<IActionResult> DeleteCategory(int id) {
+    public async Task<IActionResult> DeleteCategory(int id) 
+    {
         await _service.DeleteAsync(id);
         return NoContent();
     }
