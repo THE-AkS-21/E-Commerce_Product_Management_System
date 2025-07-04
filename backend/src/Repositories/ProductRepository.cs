@@ -47,17 +47,21 @@ public class ProductRepository {
         {
             return new Product
             {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Name = reader.GetString(reader.GetOrdinal("Name")),
-                Description = reader.GetString(reader.GetOrdinal("Description")),
-                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
-                StockQuantity = reader.GetInt32(reader.GetOrdinal("StockQuantity")),
-                CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
-                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
-                UpdatedAt = reader.IsDBNull(reader.GetOrdinal("UpdatedAt")) 
+                Id = reader.GetInt32(reader.GetOrdinal("id")),
+                Name = reader.GetString(reader.GetOrdinal("name")),
+                Description = reader.IsDBNull(reader.GetOrdinal("description")) 
                     ? null 
-                    : reader.GetDateTime(reader.GetOrdinal("UpdatedAt"))
+                    : reader.GetString(reader.GetOrdinal("description")),
+                Price = reader.GetDecimal(reader.GetOrdinal("price")),
+                StockQuantity = reader.GetInt32(reader.GetOrdinal("stockquantity")),
+                CategoryId = reader.GetInt32(reader.GetOrdinal("categoryid")),
+                ImageUrl = reader.IsDBNull(reader.GetOrdinal("imageurl")) 
+                    ? null 
+                    : reader.GetString(reader.GetOrdinal("imageurl")),
+                CreatedAt = reader.GetDateTime(reader.GetOrdinal("createdat")),
+                UpdatedAt = reader.IsDBNull(reader.GetOrdinal("updatedat"))
+                    ? null
+                    : reader.GetDateTime(reader.GetOrdinal("updatedat"))
             };
         }
         return null;

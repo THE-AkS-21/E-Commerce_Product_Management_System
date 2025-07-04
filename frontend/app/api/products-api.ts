@@ -57,11 +57,11 @@ export const getProductByName = async (name: string) => {
  * @param productId Product ID (number)
  * @returns Product object
  */
-export const getProductById = async (productId: Number) => {
+export const getProductById = async (productId: bigint) => {
     log('getProductById', `Fetching product by ID: ${productId}`);
 
     try {
-        const response = await axios.get(`${API_URL}/by-Id/${productId}`);
+        const response = await axiosInstance.get(`${API_URL}/by-Id/${productId}`);
         log('getProductById → Response', response.data);
 
         await delay(300);

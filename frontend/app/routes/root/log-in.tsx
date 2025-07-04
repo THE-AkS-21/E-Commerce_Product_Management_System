@@ -33,6 +33,7 @@ const LogIn = () => {
             // Handle login error (e.g., invalid credentials)
             console.error("Login failed:", error);
             setErrorMessage("Invalid username or password. Please try again.");
+            navigate("/");
         } finally {
             setLoading(false); // Stop loading after login attempt
         }
@@ -94,10 +95,10 @@ const LogIn = () => {
                                     {/* Register Button */}
                                     <ButtonComponent
                                         type="button"
-                                        className="button-class !bg-primary-100 !h-11 !w-full md:w-[240px]"
+                                        className="button-class !bg-gray-200 !h-11 !w-full md:w-[240px]"
                                         onClick={handleRegister}
                                     >
-                                        <span className="p-16-semibold text-white">REGISTER</span>
+                                        <span className="p-16-semibold text-primary-100">REGISTER</span>
                                     </ButtonComponent>
                                 </div>
                             </form>

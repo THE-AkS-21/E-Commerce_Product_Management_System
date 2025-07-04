@@ -30,13 +30,13 @@ const MobileSidebar = () => {
         <div className="mobile-sidebar wrapper">
             {/* Top header section */}
             <header>
-                <Link to="/">
+                <Link to="/dashboard" className="link-logo">
                     <img
                         src="/assets/icons/cosmos.png"
                         alt="Logo"
                         className="size-[30px]"
                     />
-                    <h1>THE AKS</h1>
+                    <h1>COSMOS</h1>
                 </Link>
 
                 {/* Hamburger Menu Button */}

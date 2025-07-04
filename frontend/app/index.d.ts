@@ -50,7 +50,7 @@ declare interface Product{
     stockQuantity: number;
     categoryId: number;
     imageUrl?: string;
-    createdAt?: string;
+    createdAt?: string | null;
     updatedAt?: string | null;
 }
 

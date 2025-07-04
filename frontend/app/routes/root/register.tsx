@@ -114,10 +114,10 @@ const Register = () => {
                                     {/* Sign In Button */}
                                     <ButtonComponent
                                         type="button"
-                                        className="button-class !bg-primary-100 !h-11 !w-full md:w-[240px] "
+                                        className="button-class !bg-gray-200 !h-11 !w-full md:w-[240px] "
                                         onClick={handleLogin}
                                     >
-                                        <span className="p-16-semibold text-white">SIGN IN</span>
+                                        <span className="p-16-semibold text-primary-100">SIGN IN</span>
                                     </ButtonComponent>
                                 </div>
                             </form>
